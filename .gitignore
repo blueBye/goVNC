@@ -1,0 +1,6 @@
+*.mp4
+*.fbs
+*.js
+*.txt
+.env
+ffmpeg
