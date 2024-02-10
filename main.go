@@ -48,7 +48,7 @@ func getRemoteConsole() (*remoteconsoles.RemoteConsole, error) {
 	return remoteConsole, nil
 }
 
-func generateVideo(output string) {
+func generateVideo(input string, output string) {
 	framerate := 20
 	speedupFactor := 2.0
 	fastFramerate := int(float64(framerate) * speedupFactor)
@@ -61,7 +61,7 @@ func generateVideo(output string) {
 		&vnc.ZRLEEncoding{},
 	}
 
-	fbs, err := vnc.NewFbsConn(output, video_encs)
+	fbs, err := vnc.NewFbsConn(input, video_encs)
 	if err != nil {
 		logger.Error("failed to open fbs reader:", err)
 	}
@@ -110,6 +110,7 @@ func generateVideo(output string) {
 
 func main() {
 	logger.SetLogLevel("info")
+	state := "recording"
 
 	godotenv.Load(".env")
 
@@ -143,6 +144,10 @@ func main() {
 	go func() {
 		logger.Info("listener goroutine started")
 		for {
+			if state != "recording" {
+				return
+			}
+
 			_, message, err := conn.ReadMessage()
 			if err != nil {
 				logger.Error("wsc read error:", err)
@@ -192,6 +197,7 @@ func main() {
 
 	// record for 10 seconds
 	time.Sleep(time.Second * 10)
+	state = "converting"
 	logger.Info("closing connection")
-	generateVideo("output.mp4")
+	generateVideo("autorec.fbs", "output.mp4")
 }
