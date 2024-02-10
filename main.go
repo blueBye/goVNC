@@ -1,10 +1,13 @@
 package main
 
 import (
+	"errors"
 	"net/url"
 	"os"
 	"time"
 
+	vnc "github.com/amitbet/vnc2video"
+	"github.com/amitbet/vnc2video/encoders"
 	"github.com/amitbet/vncproxy/common"
 	"github.com/amitbet/vncproxy/encodings"
 	"github.com/amitbet/vncproxy/logger"
@@ -14,14 +17,10 @@ import (
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/remoteconsoles"
 	"github.com/gorilla/websocket"
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 )
 
-func main() {
-	logger.SetLogLevel("info")
-
-	godotenv.Load(".env")
-
+func getRemoteConsole() (*remoteconsoles.RemoteConsole, error) {
 	opts := gophercloud.AuthOptions{
 		IdentityEndpoint: os.Getenv("OS_IDENTITYENDPOINT"),
 		Username:         os.Getenv("OS_USERNAME"),
@@ -43,8 +42,78 @@ func main() {
 	remoteConsole, err := remoteconsoles.Create(compute, serverID, createOpts).Extract()
 	if err != nil {
 		logger.Error("server url not found:", err)
-		return
+		return nil, errors.New("failed to ")
 	}
+
+	return remoteConsole, nil
+}
+
+func generateVideo(output string) {
+	framerate := 20
+	speedupFactor := 2.0
+	fastFramerate := int(float64(framerate) * speedupFactor)
+
+	video_encs := []vnc.Encoding{
+		&vnc.RawEncoding{},
+		&vnc.ZLibEncoding{},
+		&vnc.TightEncoding{},
+		&vnc.CopyRectEncoding{},
+		&vnc.ZRLEEncoding{},
+	}
+
+	fbs, err := vnc.NewFbsConn(output, video_encs)
+	if err != nil {
+		logger.Error("failed to open fbs reader:", err)
+	}
+
+	//launch video encoding process:
+	vcodec := &encoders.X264ImageEncoder{FFMpegBinPath: "ffmpeg", Framerate: framerate}
+	go vcodec.Run(output)
+
+	screenImage := vnc.NewVncCanvas(int(fbs.Width()), int(fbs.Height()))
+	screenImage.DrawCursor = false
+
+	for _, enc := range video_encs {
+		myRenderer, ok := enc.(vnc.Renderer)
+
+		if ok {
+			myRenderer.SetTargetImage(screenImage)
+		}
+	}
+
+	go func() {
+		frameMillis := (1000.0 / float64(fastFramerate)) - 1
+		frameDuration := time.Duration(frameMillis * float64(time.Millisecond))
+
+		for {
+			timeStart := time.Now()
+
+			vcodec.Encode(screenImage.Image)
+			timeTarget := timeStart.Add(frameDuration)
+			timeLeft := time.Until(timeTarget)
+			if timeLeft > 0 {
+				time.Sleep(timeLeft)
+			}
+		}
+	}()
+
+	msgReader := vnc.NewFBSPlayHelper(fbs)
+	//loop over all messages, feed images to video codec:
+	for {
+		_, err := msgReader.ReadFbsMessage(true, speedupFactor)
+		vcodec.Encode(screenImage.Image)
+		if err != nil {
+			os.Exit(-1)
+		}
+	}
+}
+
+func main() {
+	logger.SetLogLevel("info")
+
+	// godotenv.Load(".env")
+
+	remoteConsole, _ := getRemoteConsole()
 
 	u := url.URL{
 		Scheme:   "ws",
@@ -124,4 +193,5 @@ func main() {
 	// record for 10 seconds
 	time.Sleep(time.Second * 10)
 	logger.Info("closing connection")
+	generateVideo("output.mp4")
 }
