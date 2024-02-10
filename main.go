@@ -50,7 +50,7 @@ func getRemoteConsole() (*remoteconsoles.RemoteConsole, error) {
 
 func generateVideo(input string, output string) {
 	framerate := 20
-	speedupFactor := 2.0
+	speedupFactor := 1.2
 	fastFramerate := int(float64(framerate) * speedupFactor)
 
 	video_encs := []vnc.Encoding{
@@ -109,7 +109,7 @@ func generateVideo(input string, output string) {
 }
 
 func main() {
-	logger.SetLogLevel("info")
+	logger.SetLogLevel("warn")
 	state := "recording"
 
 	godotenv.Load(".env")
@@ -196,7 +196,7 @@ func main() {
 	clientConn.SetEncodings(encs)
 
 	// record for 10 seconds
-	time.Sleep(time.Second * 10)
+	time.Sleep(time.Second * 20)
 	state = "converting"
 	logger.Info("closing connection")
 	generateVideo("autorec.fbs", "output.mp4")
