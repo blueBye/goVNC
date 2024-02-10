@@ -1,9 +1,13 @@
+github.com/amitbet/vnc2video v0.0.0-20190616012314-9d50b9dab1d9 h1:vYU4bpShNx2qwirTqqnGZ2wYicExu4q2lQNP4u7xafM=
+github.com/amitbet/vnc2video v0.0.0-20190616012314-9d50b9dab1d9/go.mod h1:zc4FYPGD82PqOVHtzkQiz7zHHxumVoVQ4Ij0RzvOIJQ=
 github.com/amitbet/vncproxy v0.0.0-20200118084310-ea8f9b510913 h1:gQl0n269O2lxtDz6QBXtqEjiH2auPaG8GbTu3tByA3w=
 github.com/amitbet/vncproxy v0.0.0-20200118084310-ea8f9b510913/go.mod h1:HfBAAYdSeX18f2nwbuMIcA12RhvgYolx0XDbbhusDXY=
 github.com/gophercloud/gophercloud v1.8.0 h1:TM3Jawprb2NrdOnvcHhWJalmKmAmOGgfZElM/3oBYCk=
 github.com/gophercloud/gophercloud v1.8.0/go.mod h1:aAVqcocTSXh2vYFZ1JTvx4EQmfgzxRcNupUfxZbBNDM=
 github.com/gorilla/websocket v1.5.1 h1:gmztn0JnHVt9JZquRuzLw3g4wouNVzKL15iLr/zn/QY=
 github.com/gorilla/websocket v1.5.1/go.mod h1:x3kM2JMyaluk02fnUJpQuwD2dCS5NDG2ZHL0uE0tcaY=
+github.com/icza/mjpeg v0.0.0-20170217094447-85dfbe473743 h1:u5kZEGcjrCRAS99gyW/wptM3KjGYkVv80WKexNvxBuA=
+github.com/icza/mjpeg v0.0.0-20170217094447-85dfbe473743/go.mod h1:Eja3x31oRrEOzl6ihhsxY23gXaTYWLP3Gwj5nMAJ7m0=
 github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
 github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
 golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
