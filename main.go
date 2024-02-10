@@ -17,7 +17,7 @@ import (
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/compute/v2/extensions/remoteconsoles"
 	"github.com/gorilla/websocket"
-	// "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 )
 
 func getRemoteConsole() (*remoteconsoles.RemoteConsole, error) {
@@ -111,7 +111,7 @@ func generateVideo(output string) {
 func main() {
 	logger.SetLogLevel("info")
 
-	// godotenv.Load(".env")
+	godotenv.Load(".env")
 
 	remoteConsole, _ := getRemoteConsole()
 
