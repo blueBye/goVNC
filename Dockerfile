@@ -8,8 +8,8 @@ RUN go mod download
 
 # Copy the source code and required files
 COPY *.go ./
-COPY recorder/ ./
-COPY client/ ./
+COPY recorder /app/recorder/
+COPY client /app/client/
 
 # Copy binaries
 COPY ffmpeg/ ./

@@ -1,8 +1,8 @@
 module github.com/blueBye/vnc_recorder
 
-replace github.com/blueBye/client => ./client
+replace github.com/blueBye/vnc_recorder/client => /app/client
 
-replace github.com/blueBye/recorder => ./recorder
+replace github.com/blueBye/vnc_recorder/recorder => /app/recorder
 
 go 1.21.5
 
