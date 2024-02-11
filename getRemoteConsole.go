@@ -19,7 +19,12 @@ func getRemoteConsole(serverID string) (*remoteconsoles.RemoteConsole, error) {
 		DomainID:         os.Getenv("OS_FOMAINID"),
 	}
 
-	provider, _ := openstack.AuthenticatedClient(opts)
+	provider, err := openstack.AuthenticatedClient(opts)
+	if err != nil {
+		logger.Error("authentication failed:", err)
+		return nil, err
+	}
+
 	compute, _ := openstack.NewComputeV2(provider, gophercloud.EndpointOpts{Region: "RegionOne"})
 	compute.Microversion = "2.6"
 

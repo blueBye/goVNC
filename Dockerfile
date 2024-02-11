@@ -15,6 +15,9 @@ COPY client /app/client/
 COPY ffmpeg/ ./
 COPY vnc2video ./
 
+# Install ffmpeg (Yeah this needs both binary and installation)
+RUN apk add ffmpeg
+
 # Build
 RUN go build -o vnc_recorder
 

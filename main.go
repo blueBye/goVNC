@@ -7,7 +7,6 @@ import (
 
 	"github.com/amitbet/vncproxy/logger"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
 type RecordingData struct {
@@ -55,7 +54,7 @@ func recordCreate(c *gin.Context) {
 func main() {
 	// set loggin level and load envoronment variables from .evn file
 	logger.SetLogLevel("warn")
-	godotenv.Load(".env")
+	// godotenv.Load(".env")
 
 	router := gin.Default()
 	router.POST("/record", recordCreate)
@@ -65,5 +64,5 @@ func main() {
 		})
 	})
 
-	router.Run("localhost:8080")
+	router.Run("0.0.0.0:8080")
 }
