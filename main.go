@@ -44,6 +44,7 @@ func recordCreate(c *gin.Context) {
 		}
 
 		// upload to minio
+		upload(name + ".fbs.mp4")
 
 		// notify the django (doesn't know the timestamp to access file)
 	}()

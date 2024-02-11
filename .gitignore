@@ -4,3 +4,6 @@
 *.txt
 .env
 ffmpeg
+*.exe
+minio
+docker-compose.*
