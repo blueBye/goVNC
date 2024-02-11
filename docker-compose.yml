@@ -1,0 +1,37 @@
+version: "2.8"
+
+services:
+  vnc_recorder:
+    image: vnc_recorder:v0.0.1
+    ports:
+      - 8080:8080
+    environment:
+      - OS_IDENTITYENDPOINT=http://172.16.20.30:5000
+      - OS_USERNAME=admin
+      - OS_PASSWORD=Gv5I7ZvimV4meLhdadsu5brtMVgAHbjGBxvNGgfL
+      - OS_TENANTID=15f5b416f5884a2eacefa506e5247a68
+      - OS_FOMAINID=default
+      - OS_SERVERID=97d9c44a-a6f5-469f-aecb-35432a0406aa
+      - OS_WSOCKHOST=172.16.20.30:6080
+      - MINIO_ENDPPOINT=minio:9000
+      - MINIO_ACCESS_KEY=5UMHvHvXrKvC4eDDQmpV
+      - MINIO_SECRET_KEY=504y3yqG82C4JjSR0zYW5NIOuExpejnmoIumyWUF
+    networks:
+      - vnc_network
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - 9000:9000
+      - 9001:9001
+    volumes:
+      - ./minio/data:/data
+    environment:
+      - MINIO_ROOT_USER=root
+      - MINIO_ROOT_PASSWORD=hdgsa8dhbo9uyg7
+    command: server /data --console-address ":9001"
+    networks:
+      - vnc_network
+
+networks:
+  vnc_network:
