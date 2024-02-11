@@ -50,7 +50,6 @@ func recordCreate(c *gin.Context) {
 	}()
 
 	c.IndentedJSON(http.StatusCreated, "job started")
-
 }
 
 func main() {
@@ -60,6 +59,11 @@ func main() {
 
 	router := gin.Default()
 	router.POST("/record", recordCreate)
+	router.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
 
 	router.Run("localhost:8080")
 }
