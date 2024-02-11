@@ -18,6 +18,6 @@ COPY vnc2video ./
 # Build
 RUN go build -o vnc_recorder
 
-EXPOSE 8000
+EXPOSE 8080
 
 CMD ["/app/vnc_recorder"]
