@@ -198,3 +198,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [ ] we really need some documentation on FBS format used here (i just know it's compatible with tightvnc)
 - [ ] setup guide for developers is needed (I used proxmox to setup VNC server when debugging, and didn't mange to use guacamoli thing)
 - [ ] vncproxy and vnv2video codes lack documentations and code structure is a bit odd (took me a few months to figure it out)
+- [ ] make file is all over the place
+- [ ] add some github workers to automate testing (when you have any)
