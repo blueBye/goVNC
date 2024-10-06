@@ -3,6 +3,7 @@
 *.js
 *.txt
 .env
-ffmpeg
 *.exe
 minio
+*.log
+.idea/
